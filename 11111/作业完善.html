@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			#hot-goods{
+				width: 1000px;
+				height: 1000px;
+				margin: auto;
+			}
+			#hot-goods img{
+				width: 100%;
+			}
+			#hot-goods li{
+				list-style: none;
+				font-size:11px;
+				width: 200px;
+				height: 250px;
+				float: left;
+				padding: 50px;
+				text-align: center;
+			}
+			.coorl a{
+				text-decoration: none;
+			}
+			.coorlprice a{
+				text-decoration: none;
+			}
+			#cat a{
+				float: left;
+			    list-style: none;
+			    margin-right: 10px;
+			    background-color: orange;
+			    height: 50px;
+			    width: 100px;
+			    color: white;
+			    text-decoration: none;
+			    text-align: center;
+			    line-height: 45px;
+			}
+			#cat li{
+				list-style: none;
+				width: 100px;
+				height: 50px;
+				float: left;
+			}
+			#cat{
+				height: 50px;
+				width: 1000px;
+				background-color: orange;
+				margin: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="myajax.js" charset="utf-8"></script>
+		<ul id="cat"></ul>
+		<script>
+			var oCat=document.querySelector("#cat");
+			myajax.get("http://h6.duchengjiu.top/shop/api_cat.php",{},
+			function(error,responseText){
+				var json=JSON.parse(responseText);
+				var data=json.data;
+				for(var i=0;i<data.length;i++){
+					var obj=data[i];
+					oCat.innerHTML+=`<li><a href="02-商品
+					列表.html?cat_id=${obj.cat_id}">${obj.cat_name}</a>
+					</li>`;
+				}
+			})
+		</script>
+		<ul id="hot-goods"></ul>
+		<script>
+			var oHot=document.querySelector("#hot-goods");
+			myajax.get('http://h6.duchengjiu.top/shop/api_goods.php', {}, 
+				function(err,responseText){
+					var json=JSON.parse(responseText);
+					var data=json.data;
+					for(var i=0;i<data.length;i++){
+						var obj=data[i];
+						oHot.innerHTML+= `<li>
+							<div><a href="#"><img src="${obj.goods_thumb}"></a></div>
+							<div class="coorl"><a href="#">${obj.goods_name}</a></div>
+							<div class="coorlprice"><a href="#">${obj.price}</a></div>
+						</li>`;
+					}
+				});
+		</script>
+	</body>
+</html>
